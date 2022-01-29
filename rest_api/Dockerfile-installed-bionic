@@ -32,13 +32,12 @@ RUN echo "deb http://repo.sawtooth.me/ubuntu/nightly bionic universe" >> /etc/ap
     python3 \
     python3-aiodns \
     python3-aiohttp \
-    python3-cchardet\
-    python3-grpcio-tools \
-    python3-grpcio \
     python3-protobuf \
-    python3-pyformance \
-    python3-sawtooth-sdk \
-    python3-stdeb
+    python3-stdeb \
+    python3-pip
+
+RUN apt-get install -y -q build-essential automake pkg-config libtool libffi-dev libzmq3-dev
+RUN python3 -m pip install cchardet grpcio grpcio-tools pyformance sawtooth-sdk
 
 COPY . /project
 
