@@ -55,7 +55,17 @@ FROM ubuntu:bionic
 RUN apt-get update \
  && apt-get install -y \
  gnupg \
- systemd
+ systemd \
+ python3 \
+ python3-pip
+
+RUN apt-get install -y -q build-essential automake pkg-config libtool libffi-dev libzmq3-dev
+RUN python3 -m pip install packaging sawtooth-sdk
+RUN python3 -m pip install pyformance protobuf
+
+RUN apt-get install -y -q python3-protobuf
+RUN apt-get install -y -q python3-aiodns python3-aiohttp python3-stdeb
+RUN python3 -m pip install cchardet
 
 COPY --from=rest-api-builder /project/python3-sawtooth-rest-api*.deb /tmp
 
@@ -70,5 +80,7 @@ RUN echo "deb http://repo.sawtooth.me/ubuntu/nightly bionic universe" >> /etc/ap
 
 EXPOSE 4004/tcp
 EXPOSE 8008
+
+RUN mkdir -p /var/log/sawtooth
 
 CMD ["sawtooth-rest-api"]
